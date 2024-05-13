@@ -64,8 +64,10 @@ void Application::PreUpdate()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Update()
 {
+
 	//カメラ行列の更新
 	{
+		//カメラにscaleはいらない
 		static float deg = 0;
 		Math::Matrix _mScale=Math::Matrix::CreateScale(1.0f);
 		Math::Matrix _mRotationX = Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(45));
@@ -74,7 +76,7 @@ void Application::Update()
 		Math::Matrix _mRotationY = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(deg));
 
 		//カメラの「ワールド行列」を作成し、適応させる
-		Math::Matrix _worldMat = _mScale * _mRotationX * _mTrans * _mRotationY;
+		Math::Matrix _worldMat = _mScale * _mRotationX * _mTrans * _mRotationY * _HamuWorld;//行列の親子関係
 
 		//deg--;
 		//if (deg <= -360 || deg >= 360)
@@ -89,24 +91,37 @@ void Application::Update()
 
 	//ハム太郎の更新
 	{
+		//ベクトル
+		//キャラクターの動速度
+		float moveSpd = 0.05f;
+		Math::Vector3 m_nowPos = _HamuWorld.Translation();
+
+		//移動したい「方向ベクトル」=絶対に長さが「1」でなければならない
+		Math::Vector3 moveVec = Math::Vector3::Zero;
 		if (GetAsyncKeyState('W') & 0x8000)
 		{
-			_HamuPos.z++;
+			moveVec.z = 1.0f;
 		}
 		if (GetAsyncKeyState('A') & 0x8000)
 		{
-			_HamuPos.x--;
+			moveVec.x = -1.0f;
 		}
 		if (GetAsyncKeyState('S') & 0x8000)
 		{
-			_HamuPos.z--;
+			moveVec.z = -1.0f;
 		}
 		if (GetAsyncKeyState('D') & 0x8000)
 		{
-			_HamuPos.x++;
+			moveVec.x = 1.0f;
 		}
 
-		_HamuWorld = Math::Matrix::CreateTranslation(_HamuPos);
+		//正規化・・・合成ベクトルの長さを1にする
+		moveVec.Normalize();
+		moveVec *= moveSpd;
+
+		m_nowPos += moveVec;
+
+		_HamuWorld = Math::Matrix::CreateTranslation(m_nowPos);
 	}
 }
 
