@@ -189,6 +189,9 @@
     <ClInclude Include="Src\Application\Hamster\Hamster.h">
       <Filter>Src\Application\Hamster</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Terrain\Terrain.h">
+      <Filter>Src\Application\Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -295,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Hamster\Hamster.cpp">
       <Filter>Src\Application\Hamster</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Terrain\Terrain.cpp">
+      <Filter>Src\Application\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -55,7 +55,7 @@ private:
 	std::shared_ptr<KdCamera> m_spCamera = nullptr;
 
 	//地形モデル
-	std::shared_ptr<KdModelData> m_spModel = nullptr;
+	std::shared_ptr<KdGameObject> m_terrain = nullptr;
 
 	std::shared_ptr<KdGameObject> m_hamster = nullptr;
 	

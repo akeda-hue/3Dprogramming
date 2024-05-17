@@ -1,6 +1,7 @@
 ﻿#include "main.h"
 
 #include "Hamster/Hamster.h"
+#include "Terrain/Terrain.h"
 
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -95,8 +96,6 @@ void Application::Update()
 		//Math::Matrix _worldMat = _mTrans * _mRotation;
 		m_spCamera->SetCameraMatrix(_worldMat);
 	}
-
-	
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -155,7 +154,7 @@ void Application::Draw()
 	{
 		m_hamster->DrawLit();
 
-		KdShaderManager::Instance().m_StandardShader.DrawModel(*m_spModel);
+		m_terrain->DrawLit();
 	}
 	KdShaderManager::Instance().m_StandardShader.EndLit();
 
@@ -274,8 +273,8 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	// 地形モデルの初期化
 	//===================================================================
-	m_spModel = std::make_shared<KdModelData>();
-	m_spModel->Load("Asset/Data/LessonData/Terrain/Terrain.gltf");
+	m_terrain = std::make_shared<Terrain>();
+	m_terrain->Init();
 
 	return true;
 }

@@ -8,11 +8,11 @@ public:
 
 	~Hamster() override {}
 
-	void Update();
+	void Update() override;
 
-	void DrawLit();
+	void DrawLit() override;
 
-	void Init();
+	void Init() override;
 
 private:
 
