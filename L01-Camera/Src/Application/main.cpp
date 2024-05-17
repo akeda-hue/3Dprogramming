@@ -1,5 +1,8 @@
 ﻿#include "main.h"
 
+#include "Hamster/Hamster.h"
+
+
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 // エントリーポイント
 // アプリケーションはこの関数から進行する
@@ -64,6 +67,10 @@ void Application::PreUpdate()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Update()
 {
+	m_hamster->Update();
+
+	Math::Vector3 hamPos = m_hamster->GetPos();
+	Math::Matrix hamuWorld = Math::Matrix::CreateTranslation(hamPos);
 
 	//カメラ行列の更新
 	{
@@ -76,7 +83,7 @@ void Application::Update()
 		Math::Matrix _mRotationY = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(deg));
 
 		//カメラの「ワールド行列」を作成し、適応させる
-		Math::Matrix _worldMat = _mScale * _mRotationX * _mTrans * _mRotationY * _HamuWorld;//行列の親子関係
+		Math::Matrix _worldMat = _mScale * _mRotationX * _mTrans * _mRotationY * hamuWorld;//行列の親子関係
 
 		//deg--;
 		//if (deg <= -360 || deg >= 360)
@@ -89,40 +96,7 @@ void Application::Update()
 		m_spCamera->SetCameraMatrix(_worldMat);
 	}
 
-	//ハム太郎の更新
-	{
-		//ベクトル
-		//キャラクターの動速度
-		float moveSpd = 0.05f;
-		Math::Vector3 m_nowPos = _HamuWorld.Translation();
-
-		//移動したい「方向ベクトル」=絶対に長さが「1」でなければならない
-		Math::Vector3 moveVec = Math::Vector3::Zero;
-		if (GetAsyncKeyState('W') & 0x8000)
-		{
-			moveVec.z = 1.0f;
-		}
-		if (GetAsyncKeyState('A') & 0x8000)
-		{
-			moveVec.x = -1.0f;
-		}
-		if (GetAsyncKeyState('S') & 0x8000)
-		{
-			moveVec.z = -1.0f;
-		}
-		if (GetAsyncKeyState('D') & 0x8000)
-		{
-			moveVec.x = 1.0f;
-		}
-
-		//正規化・・・合成ベクトルの長さを1にする
-		moveVec.Normalize();
-		moveVec *= moveSpd;
-
-		m_nowPos += moveVec;
-
-		_HamuWorld = Math::Matrix::CreateTranslation(m_nowPos);
-	}
+	
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -179,7 +153,7 @@ void Application::Draw()
 	// 陰影のあるオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginLit();
 	{
-		KdShaderManager::Instance().m_StandardShader.DrawPolygon(*m_spPoly, _HamuWorld);
+		m_hamster->DrawLit();
 
 		KdShaderManager::Instance().m_StandardShader.DrawModel(*m_spModel);
 	}
@@ -290,12 +264,12 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	m_spCamera = std::make_shared<KdCamera>();
 
+
 	//===================================================================
 	// ハムスター初期化
 	//===================================================================
-	m_spPoly = std::make_shared<KdSquarePolygon>();
-	m_spPoly->SetMaterial("Asset/Data/LessonData/Character/hamster.png");
-	m_spPoly->SetPivot(KdSquarePolygon::PivotType::Center_Bottom);//原点を足元に
+	m_hamster = std::make_shared<Hamster>();
+	m_hamster->Init();
 
 	//===================================================================
 	// 地形モデルの初期化

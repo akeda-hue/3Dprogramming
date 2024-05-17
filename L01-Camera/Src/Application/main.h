@@ -54,16 +54,10 @@ private:
 	//カメラ
 	std::shared_ptr<KdCamera> m_spCamera = nullptr;
 
-	//板ポリゴン
-	std::shared_ptr<KdSquarePolygon> m_spPoly = nullptr;
-	Math::Matrix _HamuWorld = Math::Matrix::Identity;
-	Math::Vector3 _HamuPos;
-
-
 	//地形モデル
 	std::shared_ptr<KdModelData> m_spModel = nullptr;
 
-	
+	std::shared_ptr<KdGameObject> m_hamster = nullptr;
 	
 
 //=====================================================

@@ -55,6 +55,12 @@
     <Filter Include="Src\Framework\Effekseer">
       <UniqueIdentifier>{c81b93e4-2f33-496a-985e-98658f1cec51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Hamster">
+      <UniqueIdentifier>{e24b0b59-7a43-4f52-83ef-b9f40dda2607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Terrain">
+      <UniqueIdentifier>{242f0314-dd96-4cb9-bb96-cdec9ac9e82e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -180,6 +186,9 @@
     <ClInclude Include="Src\Framework\Effekseer\KdEffekseerManager.h">
       <Filter>Src\Framework\Effekseer</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Hamster\Hamster.h">
+      <Filter>Src\Application\Hamster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -283,6 +292,9 @@
     </ClCompile>
     <ClCompile Include="Src\Framework\Effekseer\KdEffekseerManager.cpp">
       <Filter>Src\Framework\Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Hamster\Hamster.cpp">
+      <Filter>Src\Application\Hamster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
