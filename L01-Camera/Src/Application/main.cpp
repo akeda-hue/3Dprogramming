@@ -68,10 +68,14 @@ void Application::PreUpdate()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Update()
 {
-	m_hamster->Update();
+	for (int i = 0; i < m_gameObjectList.size(); i++)
+	{
+		m_gameObjectList[i]->Update();
+	}
 
-	Math::Vector3 hamPos = m_hamster->GetPos();
-	Math::Matrix hamuWorld = Math::Matrix::CreateTranslation(hamPos);
+
+	//Math::Vector3 hamPos = m_hamster->GetPos();
+	//Math::Matrix hamuWorld = Math::Matrix::CreateTranslation(hamPos);
 
 	//カメラ行列の更新
 	{
@@ -84,7 +88,7 @@ void Application::Update()
 		Math::Matrix _mRotationY = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(deg));
 
 		//カメラの「ワールド行列」を作成し、適応させる
-		Math::Matrix _worldMat = _mScale * _mRotationX * _mTrans * _mRotationY * hamuWorld;//行列の親子関係
+		Math::Matrix _worldMat = _mScale * _mRotationX * _mTrans * _mRotationY;// * hamuWorld;//行列の親子関係
 
 		//deg--;
 		//if (deg <= -360 || deg >= 360)
@@ -152,9 +156,10 @@ void Application::Draw()
 	// 陰影のあるオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginLit();
 	{
-		m_hamster->DrawLit();
-
-		m_terrain->DrawLit();
+		for (int i = 0; i < m_gameObjectList.size(); i++)
+		{
+			m_gameObjectList[i]->DrawLit();
+		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndLit();
 
@@ -267,14 +272,17 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	// ハムスター初期化
 	//===================================================================
-	m_hamster = std::make_shared<Hamster>();
-	m_hamster->Init();
+	std::shared_ptr<Hamster> hamster = std::make_shared<Hamster>();
+	hamster->Init();
+	m_gameObjectList.push_back(hamster);
 
 	//===================================================================
 	// 地形モデルの初期化
 	//===================================================================
-	m_terrain = std::make_shared<Terrain>();
-	m_terrain->Init();
+	std::shared_ptr<Terrain> terrain = std::make_shared<Terrain>();
+	terrain->Init();
+	m_gameObjectList.push_back(terrain);
+
 
 	return true;
 }
