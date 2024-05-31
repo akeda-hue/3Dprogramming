@@ -43,9 +43,12 @@ void Character::DrawSprite()
 
 	//①ハムスターの3D座標を2D座標に変換する
 	Math::Vector3 nowPos = m_mWorld.Translation();
-	Math::Vector3 retPos;
+	Math::Vector3 retPos = {};
 
-	Application::Instance().GetCamera().lock()->ConvertWorldToScreenDetail(nowPos,retPos);
+	if (!m_camera.expired())
+	{
+		m_camera.lock()->ConvertWorldToScreenDetail(nowPos, retPos);
+	}
 
 	KdShaderManager::Instance().m_spriteShader.DrawCircle(retPos.x, retPos.y, 10, &kRedColor);
 }
