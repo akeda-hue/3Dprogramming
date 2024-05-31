@@ -9,6 +9,9 @@ void Character::Init()
 		m_spPoly->SetMaterial("Asset/Data/LessonData/Character/Hamu.png");
 		m_spPoly->SetPivot(KdSquarePolygon::PivotType::Center_Bottom);
 	}
+
+	m_tex = std::make_shared<KdTexture>();
+	m_tex->Load("Asset/Textures/bars.png");
 }
 
 void Character::Update()
@@ -47,8 +50,8 @@ void Character::DrawSprite()
 
 	if (!m_camera.expired())
 	{
-		m_camera.lock()->ConvertWorldToScreenDetail(nowPos, retPos);
+		m_camera.lock()->ConvertWorldToScreenDetail(nowPos+Math::Vector3(0.0f,1.5f,0.0f), retPos);
 	}
 
-	KdShaderManager::Instance().m_spriteShader.DrawCircle(retPos.x, retPos.y, 10, &kRedColor);
+	KdShaderManager::Instance().m_spriteShader.DrawTex(m_tex, retPos.x, retPos.y, 270, 50);
 }

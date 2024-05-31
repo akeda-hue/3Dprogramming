@@ -17,4 +17,6 @@ private:
 	std::shared_ptr<KdSquarePolygon> m_spPoly = nullptr;
 
 	std::weak_ptr<KdCamera> m_camera;
+
+	std::shared_ptr<KdTexture> m_tex;
 };
