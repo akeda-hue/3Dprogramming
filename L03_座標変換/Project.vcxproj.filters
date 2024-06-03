@@ -64,6 +64,9 @@
     <Filter Include="Src\Framework\Shader\StandardShader">
       <UniqueIdentifier>{857913be-4481-4606-9719-87518d4a6aeb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Mouse">
+      <UniqueIdentifier>{a72d883f-6075-4c28-a256-8dd6ae9c35eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -195,6 +198,9 @@
     <ClInclude Include="Src\Application\GameObject\Character\Character.h">
       <Filter>Src\Application\GameObject\Character</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Mouse\MouseC.h">
+      <Filter>Src\Application\Mouse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -304,6 +310,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Character\Character.cpp">
       <Filter>Src\Application\GameObject\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Mouse\MouseC.cpp">
+      <Filter>Src\Application\Mouse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
