@@ -17,9 +17,6 @@ POINT C_Mouse::GetMousePos()
 	
 	ScreenToClient(Application::Instance().GetWindowHandle(), &mousePos);
 
-	//mousePos.x -= 1280 / 2;
-	//mousePos.y -= 720 / 2;
-	//mousePos.y *= -1;
 	return mousePos;
 }
 

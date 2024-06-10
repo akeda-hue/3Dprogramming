@@ -22,19 +22,13 @@ void Character::Update()
 	float moveSpd = 0.05f;
 	Math::Vector3 nowPos = m_mWorld.Translation();
 
-	if (GetAsyncKeyState('D')) { m_move.x = 1.0f; }
-	if (GetAsyncKeyState('A')) { m_move.x = -1.0f; }
-	if (GetAsyncKeyState('W')) { m_move.z = 1.0f; }
-	if (GetAsyncKeyState('S')) { m_move.z = -1.0f; }
-
-
 	//マウスのクリックした所に移動する処理
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
 		KdCollider::RayInfo ray;
+		ray.m_dir = Math::Vector3::Zero;
 		ray.m_type = KdCollider::TypeGround;
 		std::list<KdCollider::CollisionResult> retRayList;
-		bool isHit = false;
 
 		m_camera.lock()->GenerateRayInfoFromClientPos(MOUSE.GetMousePos(), ray.m_pos, ray.m_dir, ray.m_range);
 
@@ -42,16 +36,14 @@ void Character::Update()
 
 		for (auto& ret : retRayList)
 		{
-			Math::Vector3 vec;
-			vec = ret.m_hitPos-nowPos;
+			m_move = ret.m_hitPos - nowPos;
 			m_targetPos = ret.m_hitPos;
-			m_move = vec;
 		}
 	}
 
 
 	//所定の場所に近づいた場合moveを0にする(めっちゃちっちゃい円判定)
-	float radius = 0.1f;
+	float radius = 0.05f;
 	Math::Vector3 v = m_targetPos - nowPos;
 
 	if (v.Length()<=radius)
@@ -60,6 +52,8 @@ void Character::Update()
 		m_targetPos = Math::Vector3::Zero;
 	}
 
+	//これで止まるらしいんだけど・・・
+	//if (m_move.Length() < moveSpd)moveSpd = m_move.Length();
 
 	m_move.Normalize();
 	m_move *= moveSpd;
