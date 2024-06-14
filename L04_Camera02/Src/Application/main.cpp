@@ -2,6 +2,8 @@
 
 #include "GameObject/Terrain/Terrain.h"
 #include "GameObject/Character/Character.h"
+#include "GameObject/Camera/TrackingCamera/TrackingCamera.h"
+#include "GameObject/Camera/FPSCamera/FPSCamera.h"
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 // エントリーポイント
 // アプリケーションはこの関数から進行する
@@ -242,10 +244,6 @@ bool Application::Init(int w, int h)
 	KdAudioManager::Instance().Init();
 
 	//===================================================================
-	// カメラ初期化
-	//===================================================================
-
-	//===================================================================
 	// ステージ初期化
 	//===================================================================
 	std::shared_ptr<Terrain> _terrain = std::make_shared<Terrain>();
@@ -258,6 +256,14 @@ bool Application::Init(int w, int h)
 	std::shared_ptr<Character> _character = std::make_shared<Character>();
 	_character->Init();
 	m_GameObjectList.push_back(_character);
+
+	//===================================================================
+	// カメラ初期化
+	//===================================================================
+	std::shared_ptr<FPSCamera> _camera = std::make_shared<FPSCamera>();
+	_camera->Init();
+	_camera->SetTarget(_character);
+	m_GameObjectList.push_back(_camera);
 
 	return true;
 }
