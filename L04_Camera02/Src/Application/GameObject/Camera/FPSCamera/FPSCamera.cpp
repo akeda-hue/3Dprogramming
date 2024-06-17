@@ -15,7 +15,7 @@ void FPSCamera::Update()
 
 	m_mRotation = GetRotationMatrix();
 
-	m_mWorld = m_mLocalPos * targetMat;
+	m_mWorld = m_mRotation*m_mLocalPos * targetMat;
 
 	Camera::Update();
 }

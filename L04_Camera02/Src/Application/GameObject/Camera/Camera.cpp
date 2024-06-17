@@ -29,7 +29,7 @@ void Camera::UpdateRotateByMouse()
 
 	POINT mouseMove{};
 	mouseMove.x = nowPos.x - m_FixMousePos.x;
-	mouseMove.x = nowPos.y - m_FixMousePos.y;
+	mouseMove.y = nowPos.y - m_FixMousePos.y;
 
 	SetCursorPos(m_FixMousePos.x, m_FixMousePos.y);
 

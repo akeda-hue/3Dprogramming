@@ -21,6 +21,16 @@ public:
 		m_target = _target;
 	}
 
+	const Math::Matrix GetRotationMatrix()
+	{
+		return Math::Matrix::CreateFromYawPitchRoll
+		(
+			DirectX::XMConvertToRadians(m_DegAng.y),
+			DirectX::XMConvertToRadians(m_DegAng.x),
+			DirectX::XMConvertToRadians(m_DegAng.z)
+		);
+	}
+
 protected:
 
 	void UpdateRotateByMouse();
