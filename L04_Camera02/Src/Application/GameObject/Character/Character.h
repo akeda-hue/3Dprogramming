@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+class Camera;
+
 class Character : public KdGameObject
 {
 public:
@@ -10,7 +12,10 @@ public:
 	void Update()			override;
 	void DrawLit()			override;
 
-private:
-	std::shared_ptr<KdSquarePolygon>	m_spPoly	= nullptr;
+	void SetCamera(std::shared_ptr<Camera> _camera) { m_camera = _camera; }
 
+private:
+	std::weak_ptr<Camera> m_camera;
+
+	std::shared_ptr<KdSquarePolygon>	m_spPoly	= nullptr;
 };

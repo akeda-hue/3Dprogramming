@@ -1,6 +1,8 @@
 ﻿#include "Character.h"
 #include "../../main.h"
 
+#include "../Camera/Camera.h"
+
 void Character::Init()
 {
 	if (!m_spPoly)
@@ -13,6 +15,12 @@ void Character::Init()
 
 void Character::Update()
 {
+	//カメラ行列を取得する
+	{
+		
+	}
+
+
 	// キャラクターの移動速度(真似しちゃダメですよ)
 	float moveSpd = 0.05f;
 	Math::Vector3 nowPos = m_mWorld.Translation();
