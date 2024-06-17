@@ -265,6 +265,8 @@ bool Application::Init(int w, int h)
 	_camera->SetTarget(_character);
 	m_GameObjectList.push_back(_camera);
 
+	_character->SetCamera(_camera);
+
 	return true;
 }
 

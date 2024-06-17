@@ -31,6 +31,11 @@ public:
 		);
 	}
 
+	const Math::Matrix GetRotationYMatrix() const
+	{
+		return Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_DegAng.y));
+	}
+
 protected:
 
 	void UpdateRotateByMouse();

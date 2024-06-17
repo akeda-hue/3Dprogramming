@@ -15,10 +15,6 @@ void Character::Init()
 
 void Character::Update()
 {
-	//カメラ行列を取得する
-	{
-		
-	}
 
 
 	// キャラクターの移動速度(真似しちゃダメですよ)
@@ -30,6 +26,14 @@ void Character::Update()
 	if (GetAsyncKeyState('A')) { moveVec.x = -1.0f; }
 	if (GetAsyncKeyState('W')) { moveVec.z = 1.0f; }
 	if (GetAsyncKeyState('S')) { moveVec.z = -1.0f; }
+
+	std::shared_ptr<Camera>_spCamera = m_camera.lock();
+	if (_spCamera)
+	{
+		// 第二引数で指定された角度のベクトルを生成して第一引数に入れている
+		moveVec = moveVec.TransformNormal(moveVec, _spCamera->GetRotationYMatrix());
+	}
+
 	moveVec.Normalize();
 	moveVec *= moveSpd;
 	nowPos += moveVec;
