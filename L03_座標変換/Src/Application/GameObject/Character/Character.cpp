@@ -84,7 +84,4 @@ void Character::DrawSprite()
 	}
 
 	KdShaderManager::Instance().m_spriteShader.DrawTex(m_tex, retPos.x, retPos.y, 270, 50);
-
-	
-
 }

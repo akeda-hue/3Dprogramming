@@ -38,8 +38,14 @@ void Character::Update()
 	moveVec *= moveSpd;
 	nowPos += moveVec;
 
+	//キャラクターの回転角度を求める
+	UpdateRotate(moveVec);
+
+
 	// キャラクターのワールド行列を創る処理
-	m_mWorld = Math::Matrix::CreateTranslation(nowPos);
+	Math::Matrix rotation = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_WorldRot.y));
+
+	m_mWorld = rotation * Math::Matrix::CreateTranslation(nowPos);
 }
 
 void Character::DrawLit()
@@ -47,5 +53,40 @@ void Character::DrawLit()
 	if (!m_spPoly) return;
 
 	KdShaderManager::Instance().m_StandardShader.DrawPolygon(*m_spPoly, m_mWorld);
+}
+
+void Character::UpdateRotate(const Math::Vector3 _moveVec)
+{
+	//何も入力がない場合は処理しない
+	//Lengthはそれなりに重いので毎フレーム実行しないほうが良い
+	if (_moveVec.LengthSquared() == 0.0f)return;
+
+	//キャラの正面方向ベクトル
+	Math::Vector3 nowDir = GetMatrix().Backward();
+	nowDir.Normalize();
+
+	//移動方向ベクトル
+	Math::Vector3 targetDir = _moveVec;
+	targetDir.Normalize();
+
+	float nowAng = atan2(nowDir.x,nowDir.z);
+	nowAng = DirectX::XMConvertToDegrees(nowAng);
+
+	float targetAng = atan2(targetDir.x, targetDir.z);
+	targetAng = DirectX::XMConvertToDegrees(targetAng);
+
+	//角度の差分を求める
+	float betweenAng = targetAng - nowAng;
+	if (betweenAng > 180)
+	{
+		betweenAng -= 360;
+	}
+	else if (betweenAng < -180)
+	{
+		betweenAng += 360;
+	}
+
+	float totateAng = std::clamp(betweenAng, -8.0f, 8.0f);
+	m_WorldRot.y += totateAng;
 }
 
