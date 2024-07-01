@@ -36,9 +36,18 @@ public:
 		return Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_DegAng.y));
 	}
 
+
+	void ResistHitObject(const std::shared_ptr<KdGameObject>& _object)
+	{
+		m_hitObjectList.push_back(_object);
+	}
+
 protected:
 
 	void UpdateRotateByMouse();
+
+	std::vector<std::weak_ptr<KdGameObject>> m_hitObjectList{};
+
 
 	Math::Matrix m_mLocalPos;
 	Math::Matrix m_mRotation;
