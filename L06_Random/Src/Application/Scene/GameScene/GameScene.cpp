@@ -129,7 +129,7 @@ void GameScene::Init()
 
 	OutputDebugStringA("-----------------------------------------------------\n");
 	float prob = 0;
-	for (int i = 0; i < sizeof(tousenNum); i++)
+	for (int i = 0; i < std::size(tousenNum); i++)
 	{
 		std::stringstream ss;
 		prob = ((float)tousenNum[i] / (float)thusenNum) * 100;
@@ -170,7 +170,7 @@ void GameScene::Init()
 
 	//OutputDebugStringA("-----------------------------------------------------\n");
 	//float prob = 0;
-	//for (int i = 0; i < sizeof(tousenNum); i++)
+	//for (int i = 0; i < std::size(tousenNum); i++)
 	//{
 	//	std::stringstream ss;
 	//	prob = ((float)tousenNum[i] / (float)thusenNum) * 100;
@@ -191,29 +191,29 @@ void GameScene::Init()
 
 
 	//レッスンその3:CカードとRカードとSRカードをそれぞれ34%,33%,33%の確率で起動時に表示せよ
-	int bunbo = 100;
+	//レッスンその3:CカードとRカードとSRカードをそれぞれ50%,49.5%,0.5%の確率で起動時に表示せよ
+	int bunbo = 1000;
 	int thusenNum = 10000000;
+	int randNum[3] = { 500,495,5 };//当選確率(%)
 	int tousenNum[3] = {};
 	for (int i = 0; i < thusenNum; i++)
 	{
-		int rand = KdGetInt(0, bunbo-1);
-		if (rand < 33)
+		int rand = KdGetInt(0, bunbo - 1);
+		for (int j = 0; j < std::size(randNum); j++)
 		{
-			tousenNum[1]++;
+			rand -= randNum[j];
+			if (rand < 0)
+			{
+				tousenNum[j]++;
+				break;
+			}
 		}
-		else if (rand >= 33 && rand < 33 + 33)
-		{
-			tousenNum[2]++;
-		}
-		else
-		{
-			tousenNum[0]++;
-		}
+
 	}
 
 	OutputDebugStringA("-----------------------------------------------------\n");
 	float prob = 0;
-	for (int i = 0; i < sizeof(tousenNum); i++)
+	for (int i = 0; i < std::size(tousenNum); i++)
 	{
 		std::stringstream ss;
 		prob = ((float)tousenNum[i] / (float)thusenNum) * 100;
