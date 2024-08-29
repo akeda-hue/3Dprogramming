@@ -24,6 +24,7 @@ private:
 	std::shared_ptr<KdModelWork>	m_model	= nullptr;
 
 	std::shared_ptr<KdAnimator> m_animator = nullptr;
+	std::shared_ptr<KdAnimator> m_animator2 = nullptr;
 
 	std::weak_ptr<CameraBase>			m_wpCamera;
 

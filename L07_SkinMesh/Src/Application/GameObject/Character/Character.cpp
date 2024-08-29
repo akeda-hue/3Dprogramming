@@ -12,7 +12,10 @@ void Character::Init()
 
 		//初期のアニメーションをセットする
 		m_animator = std::make_shared<KdAnimator>();
-		m_animator->SetAnimation(m_model->GetAnimation("Walk"));
+		m_animator->SetAnimation(m_model->GetAnimation("Attack"));
+
+		m_animator2 = std::make_shared<KdAnimator>();
+		m_animator2->SetAnimation(m_model->GetAnimation("Walk"));
 	}
 }
 
@@ -47,7 +50,14 @@ void Character::Update()
 
 void Character::PostUpdate()
 {
+	//=============================================
+	// 1つのボーンに対して1つの動作
+	//=============================================
+
 	//アニメーションの更新処理
+	m_animator2->AdvanceTime(m_model->WorkNodes());
+	m_model->CalcNodeMatrices();
+
 	m_animator->AdvanceTime(m_model->WorkNodes());
 	m_model->CalcNodeMatrices();
 }
