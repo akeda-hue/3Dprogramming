@@ -8,11 +8,11 @@ void Character::Init()
 	if (!m_spModel)
 	{
 		m_spModel = std::make_shared<KdModelWork>();
-		m_spModel->SetModelData("Asset/Models/SkinMeshMan/SkinMeshMan.gltf");
+		m_spModel->SetModelData("Asset/Models/Robot/Robot.gltf");
 
 		// 初期のアニメーションをセットする
 		m_spAnimator = std::make_shared<KdAnimator>();
-		m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("Walk"));
+		m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("Stand"));
 	}
 
 	m_Gravity = 0;
@@ -25,34 +25,46 @@ void Character::Update()
 	m_Gravity += 0.01f;
 	m_mWorld._42 -= m_Gravity;
 
-	// キャラクターの移動速度(真似しちゃダメですよ)
-	float			_moveSpd = 0.05f;
-	Math::Vector3	_nowPos	= GetPos();
-
-	Math::Vector3 _moveVec = Math::Vector3::Zero;
-	if (GetAsyncKeyState('D')) { _moveVec.x =  1.0f; }
-	if (GetAsyncKeyState('A')) { _moveVec.x = -1.0f; }
-	if (GetAsyncKeyState('W')) { _moveVec.z =  1.0f; }
-	if (GetAsyncKeyState('S')) { _moveVec.z = -1.0f; }
-
-	const std::shared_ptr<const CameraBase> _spCamera = m_wpCamera.lock();
-	if (_spCamera)
+	//各種「状態に応じた」更新処理を実行する
+	if (m_nowAction)
 	{
-		_moveVec = _moveVec.TransformNormal(_moveVec, _spCamera->GetRotationYMatrix());
+		m_nowAction->Update(*this);
 	}
-	_moveVec.Normalize();
-	_moveVec *= _moveSpd;
-	_nowPos += _moveVec;
-
-	// キャラクターの回転行列を創る
-	UpdateRotate(_moveVec);
-
-	// キャラクターのワールド行列を創る処理
-	Math::Matrix _rotation = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_worldRot.y));
-	m_mWorld = _rotation * Math::Matrix::CreateTranslation(_nowPos);
 
 	// キャラクターの座標が確定してからコリジョンによる位置補正を行う
 	UpdateCollision();
+
+	//// キャラクターの移動速度(真似しちゃダメですよ)
+	//float			_moveSpd = 0.05f;
+	//Math::Vector3	_nowPos	= GetPos();
+
+	//Math::Vector3 _moveVec = Math::Vector3::Zero;
+	//if (GetAsyncKeyState('D')) { _moveVec.x =  1.0f; }
+	//if (GetAsyncKeyState('A')) { _moveVec.x = -1.0f; }
+	//if (GetAsyncKeyState('W')) { _moveVec.z =  1.0f; }
+	//if (GetAsyncKeyState('S')) { _moveVec.z = -1.0f; }
+
+	//if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	//{
+	//	m_Gravity = -0.1f;
+	//}
+
+	//const std::shared_ptr<const CameraBase> _spCamera = m_wpCamera.lock();
+	//if (_spCamera)
+	//{
+	//	_moveVec = _moveVec.TransformNormal(_moveVec, _spCamera->GetRotationYMatrix());
+	//}
+	//_moveVec.Normalize();
+	//_moveVec *= _moveSpd;
+	//_nowPos += _moveVec;
+
+	//// キャラクターの回転行列を創る
+	//UpdateRotate(_moveVec);
+
+	//// キャラクターのワールド行列を創る処理
+	//Math::Matrix _rotation = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_worldRot.y));
+	//m_mWorld = _rotation * Math::Matrix::CreateTranslation(_nowPos);
+
 }
 
 void Character::PostUpdate()
@@ -190,4 +202,33 @@ void Character::UpdateCollision()
 			}
 		}
 	}
+}
+
+
+//ここからステートパターン関係
+
+void Character::ChangeActionState(std::shared_ptr<ActionStateBasse> nextState)
+{
+	if (m_nowAction)
+	{
+		m_nowAction->Exit(*this);
+	}
+
+	m_nowAction = nextState;
+	m_nowAction->Enter(*this);
+}
+
+void Character::ActionIdle::Enter(Character& owner)
+{
+
+}
+
+void Character::ActionIdle::Update(Character& owner)
+{
+
+}
+
+void Character::ActionIdle::Exit(Character& owner)
+{
+
 }

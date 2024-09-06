@@ -38,4 +38,35 @@ private:
 	Math::Vector3								m_worldRot;
 
 	float										m_Gravity		= 0;
+
+//ステートパターン管理系
+private:
+
+	class ActionStateBasse
+	{
+	public:
+
+		virtual ~ActionStateBasse();
+
+		virtual void Enter(Character& owner) {}
+		virtual void Update(Character& owner) {}
+		virtual void Exit(Character& owner) {}
+		
+	};
+
+	class ActionIdle : ActionStateBasse
+	{
+	public:
+
+		~ActionIdle();
+
+		void Enter(Character& owner) override;
+		void Update(Character& owner) override;
+		void Exit(Character& owner) override;
+
+	};
+
+	void ChangeActionState(std::shared_ptr<ActionStateBasse> nextState);
+	std::shared_ptr<ActionStateBasse> m_nowAction = nullptr;
+
 };
