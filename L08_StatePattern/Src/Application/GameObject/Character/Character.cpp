@@ -17,6 +17,8 @@ void Character::Init()
 
 	m_Gravity = 0;
 	SetPos({ 0, 5.0f, 0 });
+
+	m_nowAction = std::make_shared<ActionIdle>();
 }
 
 void Character::Update()
@@ -173,6 +175,11 @@ void Character::UpdateCollision()
 			{
 				SetPos(hitPos);
 				m_Gravity = 0;
+				m_isGroud = true;
+			}
+			else
+			{
+				m_isGroud = false;
 			}
 		}
 	}
@@ -218,6 +225,7 @@ void Character::ChangeActionState(std::shared_ptr<ActionStateBasse> nextState)
 	m_nowAction->Enter(*this);
 }
 
+
 void Character::ActionIdle::Enter(Character& owner)
 {
 
@@ -225,10 +233,56 @@ void Character::ActionIdle::Enter(Character& owner)
 
 void Character::ActionIdle::Update(Character& owner)
 {
+	Math::Vector3 _moveVec = Math::Vector3::Zero;
+	if (GetAsyncKeyState('D')) { _moveVec.x =  1.0f; }
+	if (GetAsyncKeyState('A')) { _moveVec.x = -1.0f; }
+	if (GetAsyncKeyState('W')) { _moveVec.z =  1.0f; }
+	if (GetAsyncKeyState('S')) { _moveVec.z = -1.0f; }
 
+
+
+
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		owner.ChangeActionState(std::make_shared<ActionJump>());
+		return;
+	}
 }
 
 void Character::ActionIdle::Exit(Character& owner)
 {
 
+}
+
+
+void Character::ActionJump::Enter(Character& owner)
+{
+	owner.m_Gravity = -0.5f;
+}
+
+void Character::ActionJump::Update(Character& owner)
+{
+	if (owner.m_isGroud)
+	{
+		owner.ChangeActionState(std::make_shared<ActionIdle>());
+		return;
+	}
+}
+
+void Character::ActionJump::Exit(Character& owner)
+{
+}
+
+
+void Character::ActionMove::Enter(Character& owner)
+{
+}
+
+void Character::ActionMove::Update(Character& owner)
+{
+
+}
+
+void Character::ActionMove::Exit(Character& owner)
+{
 }

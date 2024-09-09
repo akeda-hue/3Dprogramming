@@ -39,6 +39,10 @@ private:
 
 	float										m_Gravity		= 0;
 
+	bool m_isGroud = false;
+
+	UINT dir = 0;
+
 //ステートパターン管理系
 private:
 
@@ -46,7 +50,7 @@ private:
 	{
 	public:
 
-		virtual ~ActionStateBasse();
+		virtual ~ActionStateBasse() {}
 
 		virtual void Enter(Character& owner) {}
 		virtual void Update(Character& owner) {}
@@ -54,11 +58,35 @@ private:
 		
 	};
 
-	class ActionIdle : ActionStateBasse
+	class ActionIdle : public ActionStateBasse
 	{
 	public:
 
-		~ActionIdle();
+		~ActionIdle() {}
+
+		void Enter(Character& owner) override;
+		void Update(Character& owner) override;
+		void Exit(Character& owner) override;
+
+	};
+
+	class ActionMove : public ActionStateBasse
+	{
+	public:
+
+		~ActionMove() {}
+
+		void Enter(Character& owner) override;
+		void Update(Character& owner) override;
+		void Exit(Character& owner) override;
+
+	};
+
+	class ActionJump : public ActionStateBasse
+	{
+	public:
+
+		~ActionJump() {}
 
 		void Enter(Character& owner) override;
 		void Update(Character& owner) override;
