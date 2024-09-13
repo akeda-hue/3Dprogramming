@@ -24,10 +24,14 @@ public:
 	}
 
 private:
+
 	// キャラクターの回転行列を作成する
 	void UpdateRotate(const Math::Vector3& srcMoveVec);
+
 	// 衝突判定とそれに伴う座標の更新
 	void UpdateCollision();
+
+	Math::Vector3 m_moveVec = {};
 
 	std::shared_ptr<KdModelWork>				m_spModel		= nullptr;
 	std::shared_ptr<KdAnimator>					m_spAnimator	= nullptr;
