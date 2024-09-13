@@ -1,6 +1,8 @@
 #include "inc_KdStandardShader.hlsli"
 #include "../inc_KdCommon.hlsli"
 
+//PS:ピクセル
+
 // モデル描画用テクスチャ
 Texture2D g_baseTex : register(t0);			// ベースカラーテクスチャ
 Texture2D g_metalRoughTex : register(t1);	// メタリック/ラフネステクスチャ
