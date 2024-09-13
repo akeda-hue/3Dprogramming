@@ -16,6 +16,7 @@ void KdShaderManager::Init()
 	m_spriteShader.Init();
 	m_StandardShader.Init();
 	m_postProcessShader.Init();
+	m_LessonShader.Init();
 
 	//============================================
 	// 定数バッファ
@@ -497,6 +498,7 @@ void KdShaderManager::Release()
 	m_StandardShader.Release();
 	m_postProcessShader.Release();
 	m_spriteShader.Release();
+	m_LessonShader.Release();
 
 	m_cb7_Camera.Release();
 	m_cb8_Fog.Release();
