@@ -139,7 +139,7 @@ public:
 	KdStandardShader		m_StandardShader;		// 標準描画シェーダ
 	KdPostProcessShader		m_postProcessShader;	// ポストプロセスシェーダ
 	KdSpriteShader			m_spriteShader;			// 2Dテクスチャ描画シェーダ
-	KdSpriteShader			m_LessonShader;			// 授業用描画シェーダー
+	KdLessonShader			m_LessonShader;			// 授業用描画シェーダー
 
 	//==========================
 	//

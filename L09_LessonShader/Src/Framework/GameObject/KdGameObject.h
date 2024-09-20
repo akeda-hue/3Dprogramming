@@ -32,6 +32,7 @@ public:
 	virtual void DrawUnLit() {}
 	virtual void DrawBright() {}
 	virtual void DrawSprite() {}
+	virtual void DrawLesson() {}
 
 	virtual void DrawDebug();
 

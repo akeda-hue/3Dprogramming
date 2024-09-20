@@ -14,6 +14,7 @@ public :
 	void PreDraw();
 	void Draw();
 	void DrawSprite();
+	void DrawLesson();
 	void DrawDebug();
 
 	// オブジェクトリストを取得

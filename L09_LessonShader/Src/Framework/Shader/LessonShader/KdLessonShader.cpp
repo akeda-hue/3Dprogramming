@@ -18,6 +18,9 @@ void KdLessonShader::Begin()
     if (KdShaderManager::Instance().SetVertexShader(m_VS))
     {
         KdShaderManager::Instance().SetInputLayout(m_inputLayout);
+
+		//b1スロットにいれると教えてる
+		KdShaderManager::Instance().SetVSConstantBuffer(1, m_cb1_Mesh.GetAddress());
     }
 
     // ピクセルシェーダーのパイプライン変更
@@ -86,6 +89,13 @@ bool KdLessonShader::Init()
         }
     }
 
+	//-------------------------------------
+	// 定数バッファ
+	//-------------------------------------
+	m_cb1_Mesh.Create();
+
+
+
     return true;
 }
 
@@ -94,6 +104,8 @@ void KdLessonShader::Release()
     KdSafeRelease(m_VS);
     KdSafeRelease(m_PS);
     KdSafeRelease(m_inputLayout);
+
+	m_cb1_Mesh.Release();
 }
 
 void KdLessonShader::DrawMesh(const KdMesh* mesh, const Math::Matrix& mWorld, const std::vector<KdMaterial>& materials,
@@ -103,6 +115,11 @@ void KdLessonShader::DrawMesh(const KdMesh* mesh, const Math::Matrix& mWorld, co
 
     // メッシュの頂点情報転送
     mesh->SetToDevice();
+
+	//3Dワールド行列転送
+	m_cb1_Mesh.Work().mW = mWorld;
+	m_cb1_Mesh.Write();
+
 
     // 全サブセット
     for (UINT subi = 0; subi < mesh->GetSubsets().size(); subi++)
