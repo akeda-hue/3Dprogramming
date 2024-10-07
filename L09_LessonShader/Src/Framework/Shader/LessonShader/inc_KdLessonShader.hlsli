@@ -18,6 +18,12 @@ cbuffer cbMaterial : register(b2) //b2スロットを見る
 struct VSOutput
 {
 	float4 Pos	: SV_Position;
+	float3 wPos : TEXCOORD0; // ワールド3D座標
+	
 	float2 UV : TEXCOORD01;
 	float4 Color : TEXCOORD02;
+	
+	float3 wN : TEXCOORD3; // ワールド法線
+	float3 wT : TEXCOORD4; // ワールド接線
+	float3 wB : TEXCOORD5; // ワールド従法線
 };
