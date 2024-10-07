@@ -3,6 +3,9 @@ cbuffer cbObject : register(b0)
 {
 	float2 g_UVOffset;
 	float2 g_UVTiling;
+
+	//アウトライン対応
+	int g_EmissiveOutLineDraw;
 };
 
 // 定数バッファ(メッシュ単位)

@@ -13,7 +13,14 @@ VSOutput main(
 {
 	VSOutput Out;
 
-	pos.xyz = pos.xyz + normal + 0.03f;
+	//アウトライン描画チェック
+	if(g_EmissiveOutLineDraw)
+	{
+		
+	
+		//頂点座標を「法線方向」に少しずらす
+		pos.xyz = pos.xyz + normal + 0.03f;
+	}
 	
 	// 座標変換
 	Out.Pos = mul(pos, g_mWorld);		// ローカル座標系	-> ワールド座標系へ変換

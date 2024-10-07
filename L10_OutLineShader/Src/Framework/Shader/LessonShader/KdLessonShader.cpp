@@ -113,6 +113,15 @@ void KdLessonShader::Release()
 	m_cb2_Material.Release();
 }
 
+void KdLessonShader::SetEnableOutLineDraw(const bool _enableOutLineDraw)
+{
+	if (m_cb0_Obj.Work().EmissiveOutLineDraw != static_cast<int>(_enableOutLineDraw))
+	{
+		m_cb0_Obj.Work().EmissiveOutLineDraw = _enableOutLineDraw;
+		m_dirtyCBObj = true
+	}
+}
+
 void KdLessonShader::DrawMesh(const KdMesh* mesh, const Math::Matrix& mWorld, const std::vector<KdMaterial>& materials,
                               const Math::Vector4& col, const Math::Vector3& emissive)
 {

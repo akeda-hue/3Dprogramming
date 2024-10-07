@@ -10,6 +10,11 @@ public:
 		// UV操作
 		Math::Vector2	UVOffset = { 0.0f, 0.0f };
 		Math::Vector2	UVTiling = { 1.0f, 1.0f };
+
+		//アウトライン対応
+		int EmissiveOutLineDraw = 0;
+
+		float _blank[3] = { 0,0,0 };
 	};
 
 	// 定数バッファ(メッシュ単位更新)
@@ -42,6 +47,9 @@ public:
 
     // デストラクタで自動で解放するようにする
     ~KdLessonShader() { Release(); }
+
+	//アウトライン描画設定
+	void SetEnableOutLineDraw(const bool _enableOutLineDraw);
 
 	//================================================
 	// 各定数バッファの取得
