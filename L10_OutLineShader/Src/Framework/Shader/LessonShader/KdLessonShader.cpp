@@ -118,7 +118,7 @@ void KdLessonShader::SetEnableOutLineDraw(const bool _enableOutLineDraw)
 	if (m_cb0_Obj.Work().EmissiveOutLineDraw != static_cast<int>(_enableOutLineDraw))
 	{
 		m_cb0_Obj.Work().EmissiveOutLineDraw = _enableOutLineDraw;
-		m_dirtyCBObj = true
+		m_dirtyCBObj = true;
 	}
 }
 
@@ -156,6 +156,12 @@ void KdLessonShader::DrawModel(const KdModelData& rModel, const Math::Matrix& mW
 {
     auto& dataNodes = rModel.GetOriginalNodes();
 
+	//オブジェクト単位の情報を転送
+	if (m_dirtyCBObj)
+	{
+		m_cb0_Obj.Write();
+	}
+
     // 全描画用メッシュノードを描画
     for (auto& nodeIdx : rModel.GetDrawMeshNodeIndices())
     {
@@ -163,6 +169,81 @@ void KdLessonShader::DrawModel(const KdModelData& rModel, const Math::Matrix& mW
         DrawMesh(dataNodes[nodeIdx].m_spMesh.get(), dataNodes[nodeIdx].m_worldTransform * mWorld,
             rModel.GetMaterials(), colRate, emissive);
     }
+
+	//定数に変更があった場合は自動的に初期状態に戻す
+	if (m_dirtyCBObj)
+	{
+		ResetCBObj();
+	}
+}
+
+// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
+// モデルワークを描画（ダイナミック(アニメーションをする)なモデルに対応
+// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
+// データに所属する全ての描画用メッシュをワークの3D行列に従って描画する
+// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
+void KdLessonShader::DrawModel(KdModelWork& rModel, const Math::Matrix& mWorld,
+	const Math::Color& colRate, const Math::Vector3& emissive)
+{
+	if (!rModel.IsEnable()) { return; }
+
+	const std::shared_ptr<KdModelData>& data = rModel.GetData();
+
+	// データがないときはスキップ
+	if (data == nullptr) { return; }
+
+	if (rModel.NeedCalcNodeMatrices())
+	{
+		rModel.CalcNodeMatrices();
+	}
+
+	// オブジェクト単位の情報転送
+	if (m_dirtyCBObj)
+	{
+		m_cb0_Obj.Write();
+	}
+
+	auto& workNodes = rModel.GetNodes();
+	auto& dataNodes = data->GetOriginalNodes();
+
+	// 全描画用メッシュノードを描画
+	for (auto& nodeIdx : data->GetDrawMeshNodeIndices())
+	{
+		if (GetEnableOutLineDraw())
+		{
+			//表面をカリング(非表示)にする　ラスタライザステート
+			KdShaderManager::Instance().ChangeRasterizerState(KdRasterizerState::CullFront);
+		}
+
+		// 描画
+		DrawMesh(dataNodes[nodeIdx].m_spMesh.get(), workNodes[nodeIdx].m_worldTransform * mWorld,
+			data->GetMaterials(), colRate, emissive);
+
+		if (GetEnableOutLineDraw())
+		{
+			//表面をカリング(非表示)にする　ラスタライザステート
+			KdShaderManager::Instance().ChangeRasterizerState(KdRasterizerState::CullBack);
+		}
+	}
+
+	// 定数に変更があった場合は自動的に初期状態に戻す
+	if (m_dirtyCBObj)
+	{
+		ResetCBObj();
+	}
+}
+
+bool KdLessonShader::GetEnableOutLineDraw()
+{
+	return m_cb0_Obj.Work().EmissiveOutLineDraw;
+}
+
+void KdLessonShader::ResetCBObj()
+{
+	m_cb0_Obj.Work() = cbObject();
+	m_cb0_Obj.Write();
+
+	m_dirtyCBObj = false;
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////

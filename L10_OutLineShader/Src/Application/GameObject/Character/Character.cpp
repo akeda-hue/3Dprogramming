@@ -51,6 +51,14 @@ void Character::DrawLit()
 	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_spModel, m_mWorld);
 }
 
+void Character::DrawLesson()
+{
+	if (!m_spModel) return;
+
+	KdShaderManager::Instance().m_LessonShader.SetEnableOutLineDraw(true);
+	KdShaderManager::Instance().m_LessonShader.DrawModel(*m_spModel, m_mWorld);
+}
+
 void Character::GenerateDepthMapFromLight()
 {
 	if (!m_spModel) return;

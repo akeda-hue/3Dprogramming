@@ -16,10 +16,8 @@ VSOutput main(
 	//アウトライン描画チェック
 	if(g_EmissiveOutLineDraw)
 	{
-		
-	
 		//頂点座標を「法線方向」に少しずらす
-		pos.xyz = pos.xyz + normal + 0.03f;
+		pos.xyz = pos.xyz + normal * 0.03f;
 	}
 	
 	// 座標変換
