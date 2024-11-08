@@ -161,6 +161,7 @@
     <ClInclude Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.h" />
     <ClInclude Include="Src\Application\GameObject\Character\Character.h" />
     <ClInclude Include="Src\Application\GameObject\Terrain\Terrain.h" />
+    <ClInclude Include="Src\Application\GameObject\Terrain\Water\Water.h" />
     <ClInclude Include="Src\Application\main.h" />
     <ClInclude Include="Src\Application\Scene\BaseScene\BaseScene.h" />
     <ClInclude Include="Src\Application\Scene\GameScene\GameScene.h" />
@@ -218,6 +219,7 @@
     <ClCompile Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.cpp" />
     <ClCompile Include="Src\Application\GameObject\Character\Character.cpp" />
     <ClCompile Include="Src\Application\GameObject\Terrain\Terrain.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Terrain\Water\Water.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
     <ClCompile Include="Src\Application\Scene\BaseScene\BaseScene.cpp" />
     <ClCompile Include="Src\Application\Scene\GameScene\GameScene.cpp" />

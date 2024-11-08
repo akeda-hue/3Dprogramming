@@ -39,6 +39,7 @@ VSOutput main(
 
 	// UV座標
 	Out.UV = uv * g_UVTiling + g_UVOffset;
+	Out.UV2 = uv * g_UVTiling - g_UVOffset;
 
 	// 出力
 	return Out;

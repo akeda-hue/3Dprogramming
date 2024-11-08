@@ -34,5 +34,6 @@ struct VSOutput
 
 	float3 wN	 : TEXCOORD3;	// ワールド法線
 	float3 wT	 : TEXCOORD4;	// ワールド接線
-	float3 wB	 : TEXCOORD5;	// ワールド従法線
+	float3 wB : TEXCOORD5; // ワールド従法線
+	float2 UV2	 : TEXCOORD6;	// UV座標
 };

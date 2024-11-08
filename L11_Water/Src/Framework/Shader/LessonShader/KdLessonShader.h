@@ -78,6 +78,13 @@ public:
 	void DrawModel(KdModelWork& rModel, const Math::Matrix& mWorld = Math::Matrix::Identity,
 		const Math::Color& colRate = kWhiteColor, const Math::Vector3& emissive = Math::Vector3::Zero);
 
+	// UVオフセット設定
+	void SetUVOffset(const Math::Vector2& offset)
+	{
+		m_cb0_Obj.Work().UVOffset = offset;
+		m_dirtyCBObj = true;
+	}
+
 private:
 
 	bool GetEnableOutLineDraw();
