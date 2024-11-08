@@ -48,13 +48,16 @@ void Character::DrawLit()
 {
 	if (!m_spModel) return;
 
-	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_spModel, m_mWorld);
 }
 
 void Character::DrawLesson()
 {
 	if (!m_spModel) return;
 
+	// 通常描画
+	KdShaderManager::Instance().m_LessonShader.DrawModel(*m_spModel, m_mWorld);
+
+	// アウトライン描画
 	KdShaderManager::Instance().m_LessonShader.SetEnableOutLineDraw(true);
 	KdShaderManager::Instance().m_LessonShader.DrawModel(*m_spModel, m_mWorld);
 }

@@ -527,12 +527,6 @@ bool KdStandardShader::Init()
 
 	SetDissolveTexture(*KdAssets::Instance().m_textures.GetData("Asset/Textures/System/WhiteNoise.png"));
 
-	//-------------------------------------
-	// IBLテクスチャ読み込み
-	//-------------------------------------
-	SetIBLTexture(*KdAssets::Instance().m_textures.GetData("Asset/Textures/Shader/ParkIBL.dds"));
-
-
 	return true;
 }
 

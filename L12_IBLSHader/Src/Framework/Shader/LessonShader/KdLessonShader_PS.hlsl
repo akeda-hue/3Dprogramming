@@ -11,6 +11,8 @@ Texture2D g_normalTex : register(t3);			// 法線マップ
 SamplerState g_ss : register(s0);				// 通常のテクスチャ描画用
 SamplerComparisonState g_ssCmp : register(s1);	// 補間用比較機能付き
 
+TextureCube g_IBLTex : register(t12);			// IBLテクスチャ
+
 float BlinnPhong(float3 lightDir, float3 vCam, float3 normal, float specPower)
 {
 	float3 H = normalize(-lightDir + vCam);
@@ -120,6 +122,20 @@ float4 main(VSOutput In) : SV_Target0
 	}
 
 	outColor += g_AmbientLight.rgb * baseColor.rgb * baseColor.a;
+
+	//-------------------------
+	// IBL
+	//-------------------------
+	{
+		// 拡散光
+		float3 envDiff = g_IBLTex.SampleLevel(g_ss, wN, 8).rgb;
+		outColor += envDiff * baseDiffuse.rgb / 3.141592;
+	
+		// 反射光
+		float3 vRef = reflect(-vCam, wN);
+		float3 envSpec = g_IBLTex.SampleLevel(g_ss, vRef, roughness * 8).rgb;
+		outColor += envSpec * baseSpecular;
+	}
 
 	//------------------------------------------
 	// 出力

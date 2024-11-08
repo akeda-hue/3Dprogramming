@@ -99,6 +99,11 @@ bool KdLessonShader::Init()
 	m_cb1_Mesh.Create();
 	m_cb2_Material.Create();
 
+	//-------------------------------------
+	// IBLテクスチャ読み込み
+	//-------------------------------------
+	SetIBLTexture(*KdAssets::Instance().m_textures.GetData("Asset/Textures/Shader/ParkIBL.dds"));
+
     return true;
 }
 
